@@ -39,6 +39,15 @@ class ABR:
             self.insertNode(self.root, key)
 
     def insertNode(self, currentNode, key):
+        y = None
+        x = currentNode
+        while x != None:
+            y = x
+            if key < x.key:
+                x = x.left
+            else:
+                x = x.right
+        currentNode.setDad(y)
         if (key <= currentNode.key):
             if (currentNode.left):
                 self.insertNode(currentNode.left, key)
@@ -90,6 +99,18 @@ class ABR:
         while currentNode.right != None:
             currentNode = currentNode.right
         return currentNode.get()
+
+    def successor(self):
+        self._successor(self.root)
+
+    def _successor(self, currentNode):
+        if currentNode.right != None:
+            return self._min(currentNode.right)
+        y = currentNode.dad
+        while y != None and currentNode == y.right:
+            currentNode = y
+            y = y.dad
+        return y
 
 
 tree = ABR()
