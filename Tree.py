@@ -75,14 +75,22 @@ class ABR:
 
         _inorder(self.root)
 
+    def min(self):
+        print "Valore minimo :", self._min(self.root)
 
+    def _min(self, currentNode):
+        while currentNode.left != None:
+            currentNode = currentNode.left
+        return currentNode.get()
 
 
 tree = ABR()
 tree.insert(4)
 tree.insert(5)
+tree.insert(-100)
 for x in range(20, 10, -1):
     tree.insert(x)
 print tree.find(5)
 print tree.find(2)
 tree.inorder()
+tree.min()
