@@ -1,9 +1,14 @@
+Black = 0
+Red = 1
+
+
 class Node:
-    def __init__(self, key):
+    def __init__(self, key, dad=None, color=Black):
         self.key = key
         self.left = None
         self.right = None
-        self.dad = None
+        self.dad = dad
+        self.color = color
 
     def get(self):
         return self.key
@@ -24,53 +29,56 @@ class Node:
     def setDad(self, dad):
         self.dad = dad
 
+    def getColor(self):
+        return self.color
 
+    def setColor(self, color):
+        self.color = color
+
+
+# Albero binario di ricerca
 class ABR:
     def __init__(self):
         self.root = None
 
-    def setRoot(self, key):
-        self.root = Node(key)
+    def setRoot(self, key, dad, color):
+        self.root = Node(key, dad, color)
 
     def insert(self, key):
         if (self.root is None):
-            self.setRoot(key)
+            self.setRoot(key, None, Black)
         else:
-            self.insertNode(self.root, key)
+            self.insertNode(Node(key, None, Black))
 
-    def insertNode(self, currentNode, key):
-        if (key <= currentNode.key):
-            if (currentNode.left):
-                self.insertNode(currentNode.left, key)
-            else:
-                currentNode.left = Node(key)
-        elif (key > currentNode.key):
-            if (currentNode.right):
-                self.insertNode(currentNode.right, key)
-            else:
-                currentNode.right = Node(key)
+    def insertNode(self, z):
         y = None
-        x = currentNode
-        while x != None:
+        x = self.root
+        while (x is not None):
             y = x
-            if key < x.key:
+            if (z.key < x.key):
                 x = x.left
             else:
                 x = x.right
-        currentNode.setDad(y)
+        z.dad = y
+        if (y is None):
+            self.root = z
+        elif (z.key < y.key):
+            y.left = z
+        else:
+            y.right = z
 
-    def find(self, key):
-        return self.findNode(self.root, key)
+    def find(self, key, color=Black):
+        return self.findNode(self.root, key, color)
 
-    def findNode(self, currentNode, key):
+    def findNode(self, currentNode, key, color):
         if (currentNode is None):
             return False
-        elif (key == currentNode.key):
+        elif key == currentNode.key and color == currentNode.color:
             return True
         elif (key < currentNode.key):
-            return self.findNode(currentNode.left, key)
+            return self.findNode(currentNode.left, key, color)
         else:
-            return self.findNode(currentNode.right, key)
+            return self.findNode(currentNode.right, key, color)
 
     def inorder(self):
         def _inorder(v):
@@ -113,29 +121,114 @@ class ABR:
         return y
 
 
-Black = "Nero"
-Red = "Rosso"
-
-
-class ABRN(ABR):
+# Albero Red Black
+class RB:
     def __init__(self):
-        self.color = Black
+        self._root = None
 
-    def setColor(self, string):
-        self.color = string
+    def setRoot(self, key, dad, color):
+        self.root = Node(key, dad, color)
 
-    def getColor(self):
-        return self.color
+    def insert(self, key):
+        if (self._root is None):
+            self.setRoot(key, None, Black)
+        else:
+            self.insertNode(Node(key, None, Black))
+
+    def insertNode(self, z):
+        y = None
+        x = self._root
+        while (x is not None):
+            y = x
+            if (z.key < x.key):
+                x = x.left
+            else:
+                x = x.right
+        z.dad = y
+        if (y is None):
+            self._root = z
+        elif (z.key < y.key):
+            y.left = z
+        else:
+            y.right = z
+        z.left = None
+        z.right = None
+        z.color = Red
+        self.insertFix(z)
+
+    def insertFix(self, z):
+        while (z.dad.color == Red):
+            if (z.dad == z.dad.dad.left):
+                y = z.dad.dad.right
+                if (y.color == Red):
+                    z.dad.color = Black
+                    y.color = Black
+                    z.dad.dad.color = Red
+                    z = z.dad.dad
+                else:
+                    if (z == z.dad.right):
+                        z = z.dad
+                        self.rotateLeft(z)
+                    z.dad.color = Black
+                    z.dad.dad = Red
+                    self.rotateRight(z.dad.dad)
+            else:
+                y = z.dad.dad.left
+                if (y.color is Red):
+                    z.parent.color = Black
+                    y.color = Black
+                    z.dad.dad.color = Red
+                    z = z.dad.dad
+                else:
+                    if (z == z.dad.left):
+                        z = z.dad
+                        self.rotateRight(z)
+                    z.dad.color = Black
+                    z.dad.dad = Red
+                    self.rotateLeft(z.dad.dad)
+        self._root.color = Black
+
+    def find(self, key, color=Black):
+        return self.findNode(self._root, key, color)
+
+    def findNode(self, currentNode, key, color):
+        if (currentNode is None):
+            return False
+        elif key == currentNode.key and color == currentNode.color:
+            return True
+        elif (key < currentNode.key):
+            return self.findNode(currentNode.left, key, color)
+        else:
+            return self.findNode(currentNode.right, key, color)
+
+    def rotateLeft(self, x):
+        y = x.right
+        x.right = y.left
+        if y.left is not None:
+            y.left.dad = x
+        y.dad = x.dad
+        if x.dad is None:
+            self._root = y
+        elif x == x.dad.left:
+            x.dad.left = y
+        else:
+            x.dad.right = y
+        y.left = x
+        x.dad = y
+
+    def rotateRight(self, y):
+        x = y.left
+        y.left = x.right
+        if x.right is not None:
+            x.right.dad = y
+        x.dad = y.dad
+        if y.dad is None:
+            self._root = x
+        elif y == y.dad.right:
+            y.dad.right = x
+        else:
+            y.dad.left = x
+        x.right = y
+        y.dad = x
 
 
-tree = ABR()
-tree.insert(1000)
-tree.insert(5)
-tree.insert(-100)
-for x in range(20, 10, -1):
-    tree.insert(x)
-print tree.find(5)
-print tree.find(2)
-tree.inorder()
-tree.min()
-tree.max()
