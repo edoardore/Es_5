@@ -39,15 +39,6 @@ class ABR:
             self.insertNode(self.root, key)
 
     def insertNode(self, currentNode, key):
-        y = None
-        x = currentNode
-        while x != None:
-            y = x
-            if key < x.key:
-                x = x.left
-            else:
-                x = x.right
-        currentNode.setDad(y)
         if (key <= currentNode.key):
             if (currentNode.left):
                 self.insertNode(currentNode.left, key)
@@ -58,6 +49,15 @@ class ABR:
                 self.insertNode(currentNode.right, key)
             else:
                 currentNode.right = Node(key)
+        y = None
+        x = currentNode
+        while x != None:
+            y = x
+            if key < x.key:
+                x = x.left
+            else:
+                x = x.right
+        currentNode.setDad(y)
 
     def find(self, key):
         return self.findNode(self.root, key)
@@ -111,6 +111,21 @@ class ABR:
             currentNode = y
             y = y.dad
         return y
+
+
+Black = "Nero"
+Red = "Rosso"
+
+
+class ABRN(ABR):
+    def __init__(self):
+        self.color = Black
+
+    def setColor(self, string):
+        self.color = string
+
+    def getColor(self):
+        return self.color
 
 
 tree = ABR()
