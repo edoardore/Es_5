@@ -75,9 +75,7 @@ class ABR:
 
         _inorder(self.root)
 
-    def trapianto(self, currentNode, key):
 
-    def delete(self, key):
 
 
 tree = ABR()
