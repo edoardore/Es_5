@@ -83,9 +83,17 @@ class ABR:
             currentNode = currentNode.left
         return currentNode.get()
 
+    def max(self):
+        print "Valore massimo:", self._max(self.root)
+
+    def _max(self, currentNode):
+        while currentNode.right != None:
+            currentNode = currentNode.right
+        return currentNode.get()
+
 
 tree = ABR()
-tree.insert(4)
+tree.insert(1000)
 tree.insert(5)
 tree.insert(-100)
 for x in range(20, 10, -1):
@@ -94,3 +102,4 @@ print tree.find(5)
 print tree.find(2)
 tree.inorder()
 tree.min()
+tree.max()
