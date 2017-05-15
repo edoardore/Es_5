@@ -308,6 +308,17 @@ def TestSearchOrderedRB():
     pickle.dump(M, open("m10.p", "wb"))
 
 
+TestDeleteOrderedABR()
+TestDeleteRandomABR()
+TestInsertOrderedABR()
+TestInsertRandomABR()
+TestInsertOrderedRB()
+TestInsertRandomRB()
+TestSearchOrderedABR()
+TestSearchRandomABR()
+TestSearchOrderedRB()
+TestSearchRandomRB()
+
 A = pickle.load(open("m1.p", "rb"))
 B = pickle.load(open("m7.p", "rb"))
 C = pickle.load(open("m6.p", "rb"))
