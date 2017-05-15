@@ -1,5 +1,5 @@
-Black = 0
-Red = 1
+Black = "Black"
+Red = "Red"
 
 
 class Node:
@@ -120,44 +120,90 @@ class ABR:
             y = y.dad
         return y
 
+    def find_del(self, key, color=0):
+        return self.findNode_delete(self.root, key, color)
+
+    def findNode_delete(self, currentNode, key, color):
+        if currentNode is None:
+            return False
+        elif key == currentNode.key and color == currentNode.color:
+            return currentNode
+        elif key < currentNode.key:
+            return self.findNode_delete(currentNode.left, key, color)
+        else:
+            return self.findNode_delete(currentNode.right, key, color)
+
+    def delete(self, key):
+        if self.root is None:
+            print "Lista Vuota"
+        else:
+            currentNode = self.find_del(key)
+            if currentNode is False:
+                return -1
+            self._delete(currentNode)
+
+    def _delete(self, currentNode):
+        if currentNode.left is None:
+            self.transplant(currentNode, currentNode.right)
+        elif currentNode.right is None:
+            self.transplant(currentNode, currentNode.left)
+        else:
+            y = self._min(currentNode.right)
+            if y.dad is not currentNode:
+                self.transplant(y, y.right)
+                y.right = currentNode.right
+                y.right.dad = y
+            self.transplant(currentNode, y)
+            y.left = currentNode.left
+            y.left.dad = y
+
+    def transplant(self, u, v):
+        if u.dad is None:
+            self.root = v
+        elif u is u.dad.left:
+            u.dad.left = v
+        else:
+            u.dad.right = v
+        if v is not None:
+            v.dad = u.dad
+
 
 # Albero Red Black
 class RB:
     def __init__(self):
-        self._root = None
+        self.nil = Node(None)
+        self._root = self.nil
 
-    def setRoot(self, key, dad, color):
-        self.root = Node(key, dad, color)
-
-    def insert(self, key):
+    def insert(self, data):
         if (self._root is None):
-            self.setRoot(key, None, Black)
+            self._root = Node(data, self.nil, Black)
         else:
-            self.insertNode(Node(key, None, Black))
+            self._insert(Node(data, self.nil, Black))
 
-    def insertNode(self, z):
-        y = None
+    def _insert(self, z):
+        y = self.nil
         x = self._root
-        while (x is not None):
+        while (x is not self.nil):
             y = x
             if (z.key < x.key):
                 x = x.left
             else:
                 x = x.right
         z.dad = y
-        if (y is None):
-            self._root = z
+        if (y is self.nil):
+            self.root = z
         elif (z.key < y.key):
             y.left = z
         else:
             y.right = z
-        z.left = None
-        z.right = None
+        z.left = self.nil
+        z.right = self.nil
         z.color = Red
-        self.insertFix(z)
+        self._insertFix(z)
 
-    def insertFix(self, z):
+    def _insertFix(self, z):
         while (z.dad.color == Red):
+
             if (z.dad == z.dad.dad.left):
                 y = z.dad.dad.right
                 if (y.color == Red):
@@ -170,12 +216,12 @@ class RB:
                         z = z.dad
                         self.rotateLeft(z)
                     z.dad.color = Black
-                    z.dad.dad = Red
+                    z.dad.dad.color = Red
                     self.rotateRight(z.dad.dad)
             else:
                 y = z.dad.dad.left
                 if (y.color is Red):
-                    z.parent.color = Black
+                    z.dad.color = Black
                     y.color = Black
                     z.dad.dad.color = Red
                     z = z.dad.dad
@@ -184,7 +230,7 @@ class RB:
                         z = z.dad
                         self.rotateRight(z)
                     z.dad.color = Black
-                    z.dad.dad = Red
+                    z.dad.dad.color = Red
                     self.rotateLeft(z.dad.dad)
         self._root.color = Black
 
@@ -192,11 +238,11 @@ class RB:
         return self.findNode(self._root, key, color)
 
     def findNode(self, currentNode, key, color):
-        if (currentNode is None):
+        if currentNode is None:
             return False
         elif key == currentNode.key and color == currentNode.color:
             return True
-        elif (key < currentNode.key):
+        elif key < currentNode.key:
             return self.findNode(currentNode.left, key, color)
         else:
             return self.findNode(currentNode.right, key, color)
@@ -231,4 +277,14 @@ class RB:
         x.right = y
         y.dad = x
 
+    def inorder(self):
+        def _inorder(v):
+            if (v is None):
+                return
+            if (v.left is not None):
+                _inorder(v.left)
+            print v.key
+            if (v.right is not None):
+                _inorder(v.right)
 
+        _inorder(self._root)
