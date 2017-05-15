@@ -274,3 +274,15 @@ class RB:
             if v.right is not None:
                 _inorder(v.right)
             print v.key
+
+    def height(self):
+        def _height(v):
+            if v is None:
+                return -1
+            else:
+                sx = _height(v.left)
+                dx = _height(v.right)
+                return max(sx, dx) + 1
+
+        return _height(self.root)
+

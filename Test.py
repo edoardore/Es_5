@@ -321,7 +321,7 @@ def RunAllTest():
     TestSearchRandomRB()
 
 
-def Plot():
+def PlotTest():
     RunAllTest()
     A = pickle.load(open("m1.p", "rb"))
     B = pickle.load(open("m7.p", "rb"))
@@ -357,4 +357,4 @@ def Plot():
     plt.show()
 
 
-Plot()
+PlotTest()
