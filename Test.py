@@ -36,7 +36,7 @@ def TestInsertRandomABR():
         sum = 0
         for k in range(0, len(T)):
             sum += T[k]
-        media = sum / 10
+        media = sum / len(T)
         M.append(media)
         r += 1
         T[0:len(T)] = []
@@ -66,7 +66,7 @@ def TestSearchRandomABR():
         sum = 0
         for k in range(0, len(T)):
             sum += T[k]
-        media = sum / 10
+        media = sum / len(T)
         M.append(media)
         r += 1
         T[0:len(T)] = []
@@ -96,7 +96,7 @@ def TestSearchOrderedABR():
         sum = 0
         for k in range(0, len(T)):
             sum += T[k]
-        media = sum / 10
+        media = sum / len(T)
         M.append(media)
         r += 1
         T[0:len(T)] = []
@@ -126,7 +126,7 @@ def TestDeleteOrderedABR():
         sum = 0
         for k in range(0, len(T)):
             sum += T[k]
-        media = sum / 10
+        media = sum / len(T)
         M.append(media)
         r += 1
         T[0:len(T)] = []
@@ -154,7 +154,7 @@ def TestInsertOrderedABR():
         sum = 0
         for k in range(0, len(T)):
             sum += T[k]
-        media = sum / 10
+        media = sum / len(T)
         M.append(media)
         r += 1
         T[0:len(T)] = []
@@ -182,7 +182,7 @@ def TestInsertRandomRB():
         sum = 0
         for k in range(0, len(T)):
             sum += T[k]
-        media = sum / 10
+        media = sum / len(T)
         M.append(media)
         r += 1
         T[0:len(T)] = []
@@ -210,7 +210,7 @@ def TestInsertOrderedRB():
         sum = 0
         for k in range(0, len(T)):
             sum += T[k]
-        media = sum / 10
+        media = sum / len(T)
         M.append(media)
         r += 1
         T[0:len(T)] = []
@@ -240,7 +240,7 @@ def TestSearchRandomRB():
         sum = 0
         for k in range(0, len(T)):
             sum += T[k]
-        media = sum / 10
+        media = sum / len(T)
         M.append(media)
         r += 1
         T[0:len(T)] = []
@@ -270,7 +270,7 @@ def TestSearchOrderedRB():
         sum = 0
         for k in range(0, len(T)):
             sum += T[k]
-        media = sum / 10
+        media = sum / len(T)
         M.append(media)
         r += 1
         T[0:len(T)] = []
