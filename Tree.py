@@ -11,7 +11,7 @@ class Node:
         self.color = color
 
     def get(self):
-        return self.key
+        return self
 
     def set(self, key):
         self.key = key
