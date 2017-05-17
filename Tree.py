@@ -1,5 +1,5 @@
-Black = "Black"
-Red = "Red"
+Black = 0
+Red = 1
 
 
 class Node:
@@ -107,7 +107,7 @@ class ABR:
         _inorder(self.root)
 
     def min(self):
-        print "Valore minimo: ", self._min(self.root)
+        print "Valore Minimo:", self._min(self.root)
 
     def _min(self, currentNode):
         while currentNode.left is not None:
@@ -115,7 +115,7 @@ class ABR:
         return currentNode.get()
 
     def max(self):
-        print "Valore massimo: ", self._max(self.root)
+        print "Valore Massimo:", self._max(self.root)
 
     def _max(self, currentNode):
         while currentNode.right is not None:
@@ -134,7 +134,7 @@ class ABR:
 
     def delete(self, key):
         if self.root is None:
-            print "Albero vuoto."
+            print "Albero Vuoto"
         else:
             currentNode = self.find_delete(key)
             if currentNode is False:
@@ -285,4 +285,3 @@ class RB:
                 return max(sx, dx) + 1
 
         return _height(self.root)
-
