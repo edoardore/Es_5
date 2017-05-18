@@ -13,6 +13,9 @@ class Node:
     def get(self):
         return self
 
+    def getKey(self):
+        return self.key
+
     def set(self, key):
         self.key = key
 
@@ -112,7 +115,7 @@ class ABR:
     def _min(self, currentNode):
         while currentNode.left is not None:
             currentNode = currentNode.left
-        return currentNode.get()
+        return currentNode.getKey()
 
     def max(self):
         print "Valore Massimo:", self._max(self.root)
@@ -120,7 +123,7 @@ class ABR:
     def _max(self, currentNode):
         while currentNode.right is not None:
             currentNode = currentNode.right
-        return currentNode.get()
+        return currentNode.getKey()
 
     def transplant(self, u, v):
         if u.dad is None:
