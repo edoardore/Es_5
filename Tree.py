@@ -98,14 +98,13 @@ class ABR:
 
     def inorder(self):
         def _inorder(v):
-            if v is None:
+            if (v is None):
                 return
-            if v.left is not None:
+            if (v.left is not None):
                 _inorder(v.left)
             print v.key
-            if v.right is not None:
+            if (v.right is not None):
                 _inorder(v.right)
-            print v.key
 
         _inorder(self.root)
 
@@ -267,17 +266,6 @@ class RB:
         else:
             return self.findNode(currentNode.right, key, color)
 
-    def inorder(self):
-        def _inorder(v):
-            if v is None:
-                return
-            if v.left is not None:
-                _inorder(v.left)
-            print v.key
-            if v.right is not None:
-                _inorder(v.right)
-            print v.key
-
     def height(self):
         def _height(v):
             if v is None:
@@ -288,3 +276,19 @@ class RB:
                 return max(sx, dx) + 1
 
         return _height(self.root)
+
+    def inorder(self):
+        A = []
+
+        def _inorder(v, A):
+            if (v is None):
+                return
+            if (v.left is not None):
+                _inorder(v.left, A)
+            A.append(v.key)
+            if (v.right is not None):
+                _inorder(v.right, A)
+
+        _inorder(self.root, A)
+        for i in range(1, len(A), 2):
+            print A[i]
